@@ -159,5 +159,24 @@ function BatcherFileList:getBatch()
 			
 		end
 		return nil
+	else
+		while self.startIndex <= self.numBatchers do
+			local labels, data, classId = self:getBatchInternal()
+			if labels == nil then
+				--all batches in batchers[startIndex] to batchers[endIndex] have been returned
+				self.startIndex = self.endIndex + 1
+				self.endIndex = math.min(self.startIndex + self.maxBatches - 1, self.numBatchers)
+				self.emptyBatcherIndex = {}
+				self.numEmptyBatchers = 0
+				self.currentIndex = self.startIndex
+				if self.startIndex <= self.numBatchers then
+					self:preallocateTensorToGPU()
+				end
+			else
+				return labels, data, labels:size(1), classId
+			end
+
+		end
+		return nil
 	end
 end
