@@ -183,7 +183,7 @@ def get_padding(num_pad_features):
 missed_entity_count = 0  # entity pair might be missed when we are putting constraints on the max length of the path.
 input_files = ['/positive_matrix.tsv.translated', '/negative_matrix.tsv.translated', '/test_matrix.tsv.translated']
 # clean the directory
-dirs = ['train', 'dev', 'test']
+dirs = ['train', 'test']
 for directory in dirs:
     output_dir = out_dir + '/' + directory
     if not os.path.exists(output_dir):
@@ -203,12 +203,12 @@ for input_file_counter, input_file_name in enumerate(input_files):
             label = '1'
         if input_file_counter == 1:
             label = '-1'
+    # if input_file_counter == 2:
+    #     output_dir = out_dir + '/dev'
+    #     output_file = output_dir + '/' + 'dev.txt'
+    #     if not os.path.exists(output_dir):
+    #         os.makedirs(output_dir)
     if input_file_counter == 2:
-        output_dir = out_dir + '/dev'
-        output_file = output_dir + '/' + 'dev.txt'
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-    if input_file_counter == 3:
         output_dir = out_dir + '/test'
         output_file = output_dir + '/' + 'test.txt'
         if not os.path.exists(output_dir):
@@ -306,6 +306,6 @@ for input_file_counter, input_file_name in enumerate(input_files):
                 output_file_with_pathlen = output_file + '.' + str(path_counter) + '.int'
                 with open(output_file_with_pathlen, 'a') as out:
                     out.write(output_line + '\n')
-            if entity_count % 100 == 0:
+            if entity_count % 10000 == 0:
                 print ('Processed ' + str(entity_count) + ' entity pairs')
 print("Missed entity pair count " + str(missed_entity_count))
