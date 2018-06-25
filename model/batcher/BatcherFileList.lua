@@ -3,7 +3,7 @@ require 'os'
 local BatcherFileList = torch.class('BatcherFileList')
 
 function BatcherFileList:__init(dataDir, batchSize, shuffle, maxBatches, useCuda, filelist)
-	fileList = dataDir..'/'..filelist
+	local fileList = dataDir..'/'..filelist
 	self.doShuffle = shuffle
 	self.batchSize = batchSize
 	self.useCuda = useCuda

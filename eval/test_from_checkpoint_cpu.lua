@@ -32,6 +32,8 @@ cmd:option('-out_file','','output dir for outputing score files')
 cmd:option('-predicate_name','','output dir for outputing score files')
 cmd:option('-meanModel',0,'to take the mean of scores of each path. Default is max (0)')
 cmd:option('-model_path','','model name')
+cmd:option('-test_list', '', 'file list for test')
+cmd:option('-gpu_id',-1,'use gpu')
 
 cmd:text()
 local params = cmd:parse(arg)
@@ -48,8 +50,14 @@ data_files={input_dir..'/'..predicate_name}
 local shuffle = false
 local maxBatches = 1000
 local minibatch = 512
-local useCuda = false
-local testBatcher = BatcherFileList(data_files[1], minibatch, shuffle, maxBatches, useCuda, 'test.list')
+local useCuda = (params.gpu_id ~= -1)
+print("use cuda:", useCuda)
+if useCuda then
+    require 'cutorch'
+    require 'cunn'
+end
+local test_list_file = params.test_list
+local testBatcher = BatcherFileList(data_files[1], minibatch, shuffle, maxBatches, useCuda, test_list_file)
 --local labs,inputs,count,classId = testBatcher:getBatch()
 --print(labs)
 --print(inputs)
@@ -64,6 +72,9 @@ if check_file ~= nil then
     local reducer = nn.Sequential():add(nn.LogSumExp(2)):add(nn.Squeeze(2))
     local training_net = nn.Sequential():add(nn.MapReduce(predictor_net,reducer)):add(nn.Sigmoid())
     local model = nn.Sequential():add(training_net):add(nn.Select(2,1))
+    if useCuda then
+        model = model:cuda()
+    end
 
     print('start predicting...')
 --    local totalBatchCounter
@@ -81,6 +92,11 @@ if check_file ~= nil then
         if(inputs == nil) then break end
         labs = labs
         inputs = inputs
+        if useCuda then
+            labs = labs:cuda()
+            inputs = inputs:cuda()
+        end
+
         batch_counter = batch_counter + 1
         local preds = model:forward(inputs)
         for i=1,count do
