@@ -73,8 +73,7 @@ print ('Done reading relation vocab')
 
 
 max_length = -1
-train_files = ['/positive_matrix.tsv.translated', '/negative_matrix.tsv.translated', '/dev_matrix.tsv.translated',
-               '/test_matrix.tsv.translated']
+train_files = ['/positive_matrix.tsv.translated', '/negative_matrix.tsv.translated', '/test_matrix.tsv.translated']
 for counter, input_file in enumerate(train_files):
     input_file = input_dir + input_file
     print ('Processing ' + input_file)
@@ -182,8 +181,7 @@ def get_padding(num_pad_features):
 
 
 missed_entity_count = 0  # entity pair might be missed when we are putting constraints on the max length of the path.
-input_files = ['/positive_matrix.tsv.translated', '/negative_matrix.tsv.translated', '/dev_matrix.tsv.translated',
-               '/test_matrix.tsv.translated']
+input_files = ['/positive_matrix.tsv.translated', '/negative_matrix.tsv.translated', '/test_matrix.tsv.translated']
 # clean the directory
 dirs = ['train', 'dev', 'test']
 for directory in dirs:
