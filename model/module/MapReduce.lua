@@ -3,7 +3,6 @@ local MapReduce, parent = torch.class('nn.MapReduce', 'nn.Container')
 
 function MapReduce:__init(mapper,reducer)
 	parent.__init(self)
-
 	self.mapper = mapper
 	self.reducer = reducer
 

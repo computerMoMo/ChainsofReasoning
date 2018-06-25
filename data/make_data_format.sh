@@ -7,7 +7,7 @@ if [ "$#" -ne 2 ]; then
 fi
 
 #change this
-mainDir='/home/rajarshi/ChainsofReasoning'
+mainDir='/home/momo/PycharmProjects/ChainsofReasoning'
 data_dir=$1
 out_dir=$2
 preprocessingDir=${mainDir}/'data'
@@ -24,7 +24,7 @@ echo "get_only_relations" $get_only_relations
 mkdir -p $out_dir
 mkdir -p $qsub_log_dir
 counter=0
-for r in `ls ${data_dir} | grep ^_`
+for r in `ls ${data_dir}`
 do
 	counter=$((counter+1))
 	relation_dir=$data_dir/$r

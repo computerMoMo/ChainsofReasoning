@@ -10,8 +10,11 @@ function  Batcher:__init(filePath, batchSize, shuffle)
 	self.classId = loadedData.classId
 	self.doShuffle = shuffle
 	if (self.labels:dim() == 1) then
+--		print("in batch")
+--		print(self.labels)
 		self.labelDimension = 1	
-		self.labels = self.labels:mul(-1):add(2)
+--		self.labels = self.labels:mul(-1):add(2)
+--		print(self.labels)
 	else
 		self.labelDimension = self.labels:size(2)
 	end

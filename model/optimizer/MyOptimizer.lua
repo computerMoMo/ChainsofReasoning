@@ -117,6 +117,7 @@ function MyOptimizer:train(trainBatcher)
             if self.cuda then
                 self.model = nn.Sequential():add(self.origModel):add(nn.Select(2,classId)):cuda()
             else
+--                print("opitimizer:",classId)
                 self.model = nn.Sequential():add(self.origModel):add(nn.Select(2,classId))
             end
             if minibatch_targets == nil then
@@ -178,7 +179,10 @@ function MyOptimizer:trainBatch(inputs, targets)
     local function fEval(x)
         if parameters ~= x then parameters:copy(x) end
         self.model:zeroGradParameters()
+--        print("before forward")
+--        print(inputs)
         local output = self.model:forward(inputs)
+--        print("after forward")
         local df_do = nil
         local err = nil        
         err = self.criterion:forward(output, targets)

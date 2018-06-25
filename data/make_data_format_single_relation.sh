@@ -2,7 +2,7 @@
 
 host=`hostname`
 if [[ $host == ip* ]]; then
-	mainDir='/home/ubuntu/ChainsofReasoning'	#for ec2 machines
+	mainDir='/home/momo/PycharmProjects/ChainsofReasoning'	#for ec2 machines
 	python_exec='/home/ubuntu/anaconda/bin/python'
 	ec2_instance=1
 else
@@ -10,7 +10,7 @@ else
 	python_exec='/share/apps/python/bin/python'
 	ec2_instance=0
 fi
-mainDir='/home/rajarshi/ChainsofReasoning'
+mainDir='/home/momo/PycharmProjects/ChainsofReasoning'
 preprocessingDir=${mainDir}/'data'
 
 relation_dir=$1

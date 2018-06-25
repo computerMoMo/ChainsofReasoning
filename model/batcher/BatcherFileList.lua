@@ -2,8 +2,8 @@ require 'Batcher'
 require 'os'
 local BatcherFileList = torch.class('BatcherFileList')
 
-function BatcherFileList:__init(dataDir, batchSize, shuffle, maxBatches, useCuda)
-	fileList = dataDir .. 'train.list'
+function BatcherFileList:__init(dataDir, batchSize, shuffle, maxBatches, useCuda, filelist)
+	fileList = dataDir..'/'..filelist
 	self.doShuffle = shuffle
 	self.batchSize = batchSize
 	self.useCuda = useCuda
@@ -19,7 +19,7 @@ function BatcherFileList:__init(dataDir, batchSize, shuffle, maxBatches, useCuda
 	local file_counter = 0
 	for file in io.lines(fileList) do
 		-- concatenate with the path to the data directory
-		local batcher = Batcher(dataDir..file, batchSize, self.doShuffle)
+		local batcher = Batcher(dataDir..'/'..file, batchSize, self.doShuffle)
 		table.insert(self.batchers, batcher)
 		self.numBatchers = self.numBatchers + 1
 		file_counter = file_counter + 1
@@ -28,7 +28,8 @@ function BatcherFileList:__init(dataDir, batchSize, shuffle, maxBatches, useCuda
 		end
 	end
 	print((string.format(' Done reading file list from %s',fileList)))
-	self.maxBatches = math.min(maxBatches, self.numBatchers)
+--	self.maxBatches = math.min(maxBatches, self.numBatchers)
+	self.maxBatches = self.numBatchers
 	self.startIndex = 1
 	self.endIndex = self.maxBatches
 	self.index = nil
@@ -132,7 +133,8 @@ function BatcherFileList:getBatchInternal()
 			local labels, data = batcher:getBatch()
 			if labels ~= nil then
 				self.currentIndex = i
-				return labels, data
+--				print("batcher:getClassId()",batcher:getClassId())
+				return labels, data, batcher:getClassId()
 			end
 		end
 	end
@@ -162,6 +164,7 @@ function BatcherFileList:getBatch()
 	else
 		while self.startIndex <= self.numBatchers do
 			local labels, data, classId = self:getBatchInternal()
+--			print("BatcherFileList:", classId)
 			if labels == nil then
 				--all batches in batchers[startIndex] to batchers[endIndex] have been returned
 				self.startIndex = self.endIndex + 1
@@ -169,9 +172,9 @@ function BatcherFileList:getBatch()
 				self.emptyBatcherIndex = {}
 				self.numEmptyBatchers = 0
 				self.currentIndex = self.startIndex
-				if self.startIndex <= self.numBatchers then
-					self:preallocateTensorToGPU()
-				end
+--				if self.startIndex <= self.numBatchers then
+--					self:preallocateTensorToGPU()
+--				end
 			else
 				return labels, data, labels:size(1), classId
 			end

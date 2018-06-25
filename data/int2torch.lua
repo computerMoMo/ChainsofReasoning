@@ -58,7 +58,7 @@ end
 local labels = Util:table2tensor(intLabels)
 local data = Util:table2tensor(intInputs) --internally, this asserts that every input sentence is of the same length and there are the same # of features per token
 if(shift == 1) then
-	labels:add(1)
+--	labels:add(1)
 	data:add(1)
 end
 

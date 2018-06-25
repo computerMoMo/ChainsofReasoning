@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-python movie_make_data_format.py -i movie_input_data/rate -d movie_output_data/rate -o 0 -g 0 -e 0 -m 6 -t 1
+#python movie_make_data_format.py -i movie_input_data/rate -d movie_output_data/rate -o 0 -g 0 -e 0 -m 6 -t 1
 
-data_set=("train" "dev" "test")
+data_set=("train" "test")
 int2torch="th int2torch.lua"
 movie_out_dir="movie_output_data/rate"
 for set in "${data_set[@]}"
@@ -15,6 +15,7 @@ do
 	echo "converting $dataset to torch files"
 	for ff in $dataDir/*.int
 	do
+	    echo $ff
 		out=`echo $ff | sed 's|.int$||'`.torch
 		$int2torch -input $ff -output $out -tokenLabels 0 -tokenFeatures 1 -addOne 1 #convert to torch format
 		if [ $? -ne 0 ]
@@ -23,12 +24,10 @@ do
 			echo 'Failed for relation'
 			continue #continue to the next one
 		fi
-#		echo $out >>  ${movie_out_dir}/${dataset}.list
-#		echo ${out}
 	done
 done
 
-data_set=("train" "dev" "test")
+data_set=("train" "test")
 
 for set in "${data_set[@]}"
 do
@@ -37,6 +36,7 @@ do
 	for f in `ls $dataDir/*.torch`
 	do
 		cmd="th insertClassLabels.lua -input $f -classLabel 1"
+		$cmd
 	done
 done
 

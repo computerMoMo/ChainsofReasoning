@@ -11,6 +11,7 @@ local classLabel = params.classLabel
 
 
 t = torch.load(input_file)
+--print("classLabel", classLabel)
 t['classId'] = classLabel
-
+--print(t)
 torch.save(input_file,t) --saving with the same name

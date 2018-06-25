@@ -315,7 +315,10 @@ if (not loadModel) then
 		end
 	end
 end
-local trainBatcher = BatcherFileList(dataDir, minibatch, shuffle, maxBatches, useCuda)
+
+print("use cuda:",useCuda)
+local trainBatcher = BatcherFileList(dataDir, minibatch, shuffle, maxBatches, useCuda, 'train.list')
+
 
 --------Initialize Optimizer-------
 local regularization = {
@@ -382,7 +385,7 @@ local evaluator = nil
 
 if(params.model  ~= "") then
 	local saver = function(i) 
-		local file = params.model.."-"..i
+		local file = params.model.."-".."latest"
 		print('saving to '..file)
 		local toSave = {
 			embeddingLayer = embeddingLayer,
