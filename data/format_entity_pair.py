@@ -14,7 +14,7 @@ if __name__ == "__main__":
     file_reader.close()
 
     entity_pair_writer = codecs.open(os.path.join(movie_data_dir, sys.argv[1]+".entity"), mode="w", encoding="utf-8")
-    entity_pair_writer.write("label\tstart_entity_id\tend_entity_id\n")
+    # entity_pair_writer.write("label\tstart_entity_id\tend_entity_id\n")
     for file_name in test_list:
         int_reader = codecs.open(os.path.join(movie_data_dir, file_name.replace("torch", "int")), mode="r", encoding="utf-8")
         line = int_reader.readline()
@@ -33,6 +33,7 @@ if __name__ == "__main__":
                     break
             end_entity_id = item_list[-1].split(",")[1]
 
+            # label start_entity_id end_entity_id
             entity_pair_writer.write(label+"\t"+start_entity_id+"\t"+end_entity_id+"\n")
             # read next line
             line = int_reader.readline()
