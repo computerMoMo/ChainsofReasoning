@@ -8,7 +8,7 @@ entity_dir = "../data/movie_output_data/rate"
 
 if __name__ == "__main__":
     entity_reader = codecs.open(os.path.join(entity_dir, sys.argv[1]), mode="r", encoding="utf-8")
-    head_line = entity_reader.readline()
+    # head_line = entity_reader.readline()
     result_reader = codecs.open(sys.argv[2], mode="r", encoding="utf-8")
     pos_combine_writer = codecs.open(sys.argv[3]+"_pos.txt", mode="w", encoding="utf-8")
     neg_combine_writer = codecs.open(sys.argv[3] + "_neg.txt", mode="w", encoding="utf-8")
