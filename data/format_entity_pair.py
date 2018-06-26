@@ -15,6 +15,7 @@ if __name__ == "__main__":
 
     entity_pair_writer = codecs.open(os.path.join(movie_data_dir, sys.argv[1]+".entity"), mode="w", encoding="utf-8")
     # entity_pair_writer.write("label\tstart_entity_id\tend_entity_id\n")
+    count_num = 0
     for file_name in test_list:
         int_reader = codecs.open(os.path.join(movie_data_dir, file_name.replace("torch", "int")), mode="r", encoding="utf-8")
         line = int_reader.readline()
@@ -35,6 +36,9 @@ if __name__ == "__main__":
 
             # label start_entity_id end_entity_id
             entity_pair_writer.write(label+"\t"+start_entity_id+"\t"+end_entity_id+"\n")
+            count_num += 1
+            if count_num % 10000 == 0:
+                print count_num
             # read next line
             line = int_reader.readline()
         int_reader.close()
