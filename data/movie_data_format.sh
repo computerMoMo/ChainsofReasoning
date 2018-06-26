@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#python movie_make_data_format.py -i movie_input_data/rate -d movie_output_data/rate -o 0 -g 0 -e 0 -m 6 -t 1
+python movie_make_data_format.py -i movie_input_data/rate -d movie_output_data/rate -o 0 -g 0 -e 0 -m 6 -t 1
 
 data_set=("train" "test")
 int2torch="th int2torch.lua"
