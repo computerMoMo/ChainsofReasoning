@@ -49,7 +49,7 @@ assert(input_dir~='','input_dir isnt set. Point to the dir where train/dev/test.
 data_files={input_dir..'/'..predicate_name}
 local shuffle = false
 local maxBatches = 1000
-local minibatch = 512
+local minibatch = 1024
 local useCuda = (params.gpu_id ~= -1)
 print("use cuda:", useCuda)
 if useCuda then
