@@ -95,9 +95,19 @@ if __name__ == "__main__":
                 predict_labels.append(float(_item[-1]))
 
             _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
+            temp_hit = []
+            temp_ndcg = []
+            for k in range(1, 16):
+                hit, ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=k)
+                temp_hit.append(hit)
+                temp_ndcg.append(ndcg)
+
+            hit_k_score.append(temp_hit)
+            ndcg_k_score.append(temp_ndcg)
+
             # print(_hit, _ndcg)
-            hit_k_score.append(_hit)
-            ndcg_k_score.append(_ndcg)
+            # hit_k_score.append(_hit)
+            # ndcg_k_score.append(_ndcg)
         # debug
         # debug_num += 1
         # if debug_num >= 10:
@@ -106,6 +116,19 @@ if __name__ == "__main__":
     pos_reader.close()
     neg_reader.close()
 
-    print("hit@15", sum(hit_k_score)/float(len(hit_k_score)))
-    # print(sum(hit_k_score), len(hit_k_score))
-    print("ndcg@15", sum(ndcg_k_score)/float(len(ndcg_k_score)))
+    # print("hit@15", sum(hit_k_score)/float(len(hit_k_score)))
+    # # print(sum(hit_k_score), len(hit_k_score))
+    # print("ndcg@15", sum(ndcg_k_score)/float(len(ndcg_k_score)))
+
+    total_hit_res_array = np.asarray(hit_k_score)
+    total_ndcg_res_array = np.asarray(ndcg_k_score)
+    print(total_hit_res_array.shape)
+    print(total_ndcg_res_array.shape)
+
+    hit_average = []
+    ndcg_average = []
+    for i in range(15):
+        hit_average.append("%.5f" % np.mean(total_hit_res_array[:, i]))
+        ndcg_average.append("%.5f" % np.mean(total_ndcg_res_array[:, i]))
+    print("hit score:", hit_average)
+    print("ndcg score:", ndcg_average)
