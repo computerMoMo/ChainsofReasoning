@@ -1,4 +1,4 @@
-# ChainsofReasoning
+# Path RNN for Movie Recommendation
 
 Code for paper [Chains of Reasoning over Entities, Relations, and Text using
 Recurrent Neural Networks](https://arxiv.org/abs/1607.01426)
@@ -14,40 +14,31 @@ Recurrent Neural Networks](https://arxiv.org/abs/1607.01426)
 
 ## Instructions for running the code
 
-### Data
-Get the data from [here](http://iesl.cs.umass.edu/downloads/akbc16/). ~~(Note: This might change soon, as I will release an updated version of the dataset)~~
-
-To get the correct format to run the models, 
+### Generate Train and Test Data
+data source:movieLens 1M 
 ```shell
 cd data
-/bin/bash make_data_format.sh <path_to_input_data> <output_dir>
+bash movie_data_format.sh
+vim large_test_file.txt(because of the memory constraints you should add those large test file name into it)
+python split_test_data.py
+bash test_part_data_format.sh
 ```
-For example you can run,
+
+### Train Model
 ```shell
-cd data
-/bin/bash make_data_format.sh examples/data_small_input examples/data_small_output
+cd ../run_scripts
+bash train.sh ./config.sh
 ```
 
-### Model
-To start training, first checkout [run_scripts/config.sh](run_scripts/config.sh). This defines all the hyperparams and other inputs to the network. After specifying model parameters, to start training run,
-
+### Evaluation
 ```shell
-cd run_sripts
-/bin/bash train.sh ./config.sh
+cd ../eval
+bash model_test.sh <mode_path> <gpu_id>
+bash format_entity_pair.sh
+bash combine_result.sh
+bash concat.sh
+python get_user_id.py
+python resort.py total_pos.txt total_pos_sorted.txt
+python resort.py total_neg.txt total_neg_sorted.txt
+python eval_score.py
 ```
-
-### Path Query Experiment on WordNet (Sec 5.5 of the paper)
-Checkout the instructions of the readme page in [wordnet_experiment/README.md](wordnet_experiment/README.md).
-
-### GPU/CPU settings
-Set gpu_id=0 in run_scripts/config.sh to enable GPU training using CUDA.
-Set gpu_id=-1 in run_scripts/config.sh to disable GPU training.
-
-### Changelog
-- Aug 7 2017: Released the dataset used for the EACL paper. I apologize for the delay.
-- Mar 29 2017: added test scripts.
-
-### Contact:
-Feel free to email me with any questions you have at rajarshi@cs.umass.edu
-
-
