@@ -15,11 +15,12 @@ Recurrent Neural Networks](https://arxiv.org/abs/1607.01426)
 ## Instructions for running the code
 
 ### Generate Train and Test Data
-data source:movieLens 1M 
+Data Source: [movieLens 1M](https://grouplens.org/datasets/movielens/1m/)
+
 ```shell
 cd data
 bash movie_data_format.sh
-vim large_test_file.txt(because of the memory constraints you should add those large test file name into it)
+vim large_test_file.txt (because of the memory constraints you should add those large test files into "large_test_file")
 python split_test_data.py
 bash test_part_data_format.sh
 ```
@@ -34,7 +35,9 @@ bash train.sh ./config.sh
 ```shell
 cd ../eval
 bash model_test.sh <mode_path> <gpu_id>
+cd ../data
 bash format_entity_pair.sh
+cd ../eval
 bash combine_result.sh
 bash concat.sh
 python get_user_id.py
