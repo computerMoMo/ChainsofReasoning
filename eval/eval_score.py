@@ -4,6 +4,7 @@ import codecs
 import numpy as np
 import math
 import heapq
+import random
 
 negNum = 50
 
@@ -52,7 +53,8 @@ if __name__ == "__main__":
     neg_line = neg_reader.readline()
 
     debug_num = 0
-
+    hit_k_score = []
+    ndcg_k_score = []
     for user_id in user_id_list:
         print("user id:", user_id)
 
@@ -77,13 +79,27 @@ if __name__ == "__main__":
             else:
                 # neg_line = neg_reader.readline()
                 break
-        for item in user_pos_list:
-            if item[0] != user_id:
-                print("error", item)
-        for item in user_neg_list:
-            if item[0] != user_id:
-                print("error", item)
-        debug_num += len(user_pos_list)+len(user_neg_list)
-    print(debug_num)
+
+        # samples
+        for pos_item in user_pos_list:
+            if len(user_neg_list) > negNum:
+                neg_sample_list = random.sample(user_neg_list, negNum)
+            else:
+                neg_sample_list = user_neg_list
+            ground_truth_labels = []
+            predict_labels = []
+            ground_truth_labels.append(float(pos_item[-2]))
+            predict_labels.append(float(pos_item[-1]))
+            for _item in neg_sample_list:
+                ground_truth_labels.append(float(_item[-2]))
+                predict_labels.append(float(_item[-1]))
+
+            _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
+            hit_k_score.append(_hit)
+            ndcg_k_score.append(_ndcg)
+
     pos_reader.close()
     neg_reader.close()
+
+    print("hit@15", sum(hit_k_score)/len(hit_k_score))
+    print("ndcg@15", sum(ndcg_k_score)/len(ndcg_k_score))
