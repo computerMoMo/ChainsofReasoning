@@ -64,7 +64,7 @@ if __name__ == "__main__":
                 user_pos_list.append(pos_line_list)
                 pos_line = pos_reader.readline()
             else:
-                pos_line = pos_reader.readline()
+                # pos_line = pos_reader.readline()
                 break
 
         user_neg_list = []
@@ -75,7 +75,7 @@ if __name__ == "__main__":
                 user_neg_list.append(neg_line_list)
                 neg_line = neg_reader.readline()
             else:
-                neg_line = neg_reader.readline()
+                # neg_line = neg_reader.readline()
                 break
         for item in user_pos_list:
             if item[0] != user_id:
