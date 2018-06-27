@@ -84,5 +84,6 @@ if __name__ == "__main__":
             if item[0] != user_id:
                 print("error", item)
         debug_num += len(user_pos_list)+len(user_neg_list)
+    print(debug_num)
     pos_reader.close()
     neg_reader.close()
