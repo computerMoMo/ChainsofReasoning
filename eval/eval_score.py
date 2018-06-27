@@ -132,3 +132,8 @@ if __name__ == "__main__":
         ndcg_average.append("%.5f" % np.mean(total_ndcg_res_array[:, i]))
     print("hit score:", hit_average)
     print("ndcg score:", ndcg_average)
+
+    score_writer = codecs.open("eval_res.txt", mode="w", encoding="utf-8")
+    score_writer.write("\t".join(hit_average) + "\n")
+    score_writer.write("\t".join(ndcg_average) + "\n")
+    score_writer.close()
