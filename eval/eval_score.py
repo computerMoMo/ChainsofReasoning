@@ -106,6 +106,6 @@ if __name__ == "__main__":
     pos_reader.close()
     neg_reader.close()
 
-    print("hit@15", sum(hit_k_score)/len(hit_k_score))
-    print(sum(hit_k_score))
-    print("ndcg@15", sum(ndcg_k_score)/len(ndcg_k_score))
+    print("hit@15", sum(hit_k_score)/float(len(hit_k_score)))
+    print(sum(hit_k_score), len(hit_k_score))
+    print("ndcg@15", sum(ndcg_k_score)/float(len(ndcg_k_score)))
