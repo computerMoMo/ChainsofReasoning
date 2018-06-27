@@ -40,7 +40,7 @@ def eval_one_rating(i_gnd, i_pre, K):
 if __name__ == "__main__":
     # read pos user ids
     user_id_list = []
-    user_id_reader = codecs.open("pos_user_id.txt", mode="r", encoding="utf-8")
+    user_id_reader = codecs.open("user_id.txt", mode="r", encoding="utf-8")
     for line in user_id_reader:
         user_id_list.append(line.strip())
     user_id_reader.close()
