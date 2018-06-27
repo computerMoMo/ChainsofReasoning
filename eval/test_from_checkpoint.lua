@@ -49,7 +49,7 @@ assert(input_dir~='','input_dir isnt set. Point to the dir where train/dev/test.
 data_files={input_dir..'/'..predicate_name}
 local shuffle = false
 local maxBatches = 1000
-local minibatch = 1024
+local minibatch = 512
 local useCuda = (params.gpu_id ~= -1)
 print("use cuda:", useCuda)
 if useCuda then
@@ -112,7 +112,7 @@ if check_file ~= nil then
         if total_batch_count % 100 == 0 then
             print("batch nums:", total_batch_count, "per 100 batch cost time:", (os.time()-start_time)/(total_batch_count/100))
         end
-        print("batch number:", total_batch_count)
+--        print("batch number:", total_batch_count)
     end
     file:close()
 end
