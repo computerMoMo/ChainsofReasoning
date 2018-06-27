@@ -3,7 +3,7 @@
 Code for paper [Chains of Reasoning over Entities, Relations, and Text using
 Recurrent Neural Networks](https://arxiv.org/abs/1607.01426)
 
-##Dependencies
+## Dependencies
 
 - [torch](https://github.com/torch/torch7)
 - [nn](https://github.com/torch/nn)
