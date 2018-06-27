@@ -6,7 +6,7 @@ import math
 import heapq
 import random
 
-negNum = 50
+negNum = 100
 
 
 def get_hit_ratio(rank_list, target_item):
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 predict_labels.append(float(_item[-1]))
 
             _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
-            print(_hit, _ndcg)
+            # print(_hit, _ndcg)
             hit_k_score.append(_hit)
             ndcg_k_score.append(_ndcg)
         # debug
@@ -107,5 +107,5 @@ if __name__ == "__main__":
     neg_reader.close()
 
     print("hit@15", sum(hit_k_score)/float(len(hit_k_score)))
-    print(sum(hit_k_score), len(hit_k_score))
+    # print(sum(hit_k_score), len(hit_k_score))
     print("ndcg@15", sum(ndcg_k_score)/float(len(ndcg_k_score)))
