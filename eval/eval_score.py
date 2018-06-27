@@ -99,9 +99,9 @@ if __name__ == "__main__":
             hit_k_score.append(_hit)
             ndcg_k_score.append(_ndcg)
         # debug
-        debug_num += 1
-        if debug_num >= 10:
-            break
+        # debug_num += 1
+        # if debug_num >= 10:
+        #     break
 
     pos_reader.close()
     neg_reader.close()
