@@ -100,11 +100,12 @@ if __name__ == "__main__":
             ndcg_k_score.append(_ndcg)
         # debug
         debug_num += 1
-        if debug_num >= 100:
+        if debug_num >= 10:
             break
 
     pos_reader.close()
     neg_reader.close()
 
     print("hit@15", sum(hit_k_score)/len(hit_k_score))
+    print(sum(hit_k_score))
     print("ndcg@15", sum(ndcg_k_score)/len(ndcg_k_score))
