@@ -95,8 +95,13 @@ if __name__ == "__main__":
                 predict_labels.append(float(_item[-1]))
 
             _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
+            print(_hit, _ndcg)
             hit_k_score.append(_hit)
             ndcg_k_score.append(_ndcg)
+        # debug
+        debug_num += 1
+        if debug_num >= 100:
+            break
 
     pos_reader.close()
     neg_reader.close()
