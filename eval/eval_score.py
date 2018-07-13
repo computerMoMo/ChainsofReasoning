@@ -71,7 +71,7 @@ if __name__ == "__main__":
     user_id_reader.close()
 
     # read origin fq dict
-    item_fq_reader = codecs.open("../data/movie_vocab/path_rnn_movie.txt", mode="r", encoding="utf-8")
+    item_fq_reader = codecs.open("../data/movie_vocab/path_rnn_movie_fq.txt", mode="r", encoding="utf-8")
     item_fq_dict = dict()
     for line in item_fq_reader.readlines():
         line_list = line.strip().split("\t")
