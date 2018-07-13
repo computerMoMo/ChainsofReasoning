@@ -79,6 +79,7 @@ if __name__ == "__main__":
     item_fq_reader.close()
 
     alpha = float(sys.argv[1])
+    print("eval with alpha:", alpha)
 
     # generate test samples
     pos_reader = codecs.open("total_pos_sorted.txt", mode="r", encoding="utf-8")
@@ -120,10 +121,12 @@ if __name__ == "__main__":
                 if alpha == 0.0:
                     neg_sample_list = random.sample(user_neg_list, negNum)
                 else:
-                    print("generate new item sample pros with alpha:", alpha)
                     itemFqDict = generate_fq_dict(alpha=alpha, origin_fq_dict=item_fq_dict)
-                    item_fq_list = [itemFqDict[item_id] for item_id in user_neg_list]
-                    neg_sample_list = sample_with_fq(sample_num=negNum, item_fq_list=item_fq_list)
+                    # print(type(itemFqDict))
+                    # print(user_neg_list)
+                    item_fq_list = [itemFqDict[item_object[1]] for item_object in user_neg_list]
+                    neg_sample_idx_list = sample_with_fq(sample_num=negNum, item_fq_list=item_fq_list)
+                    neg_sample_list = [user_neg_list[idx] for idx in neg_sample_idx_list]
             else:
                 neg_sample_list = user_neg_list
             ground_truth_labels = []
