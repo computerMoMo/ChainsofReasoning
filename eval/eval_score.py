@@ -104,7 +104,6 @@ if __name__ == "__main__":
                 ground_truth_labels.append(0.0)
                 predict_labels.append(float(_scores[1]))
 
-            _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
             temp_hit = []
             temp_ndcg = []
             for k in range(1, 16):
