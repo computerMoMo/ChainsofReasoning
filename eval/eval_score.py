@@ -54,8 +54,6 @@ if __name__ == "__main__":
     not_enough_num = 0
 
     # generate test samples
-    # pos_reader = codecs.open(sys.argv[2], mode="r", encoding="utf-8")
-    # neg_reader = codecs.open(sys.argv[3], mode="r", encoding="utf-8")
     score_reader = codecs.open(sys.argv[2], mode="r", encoding="utf-8")
     sample_reader = codecs.open("test_samples/test_samples_"+str(alpha)+".txt", mode="r", encoding="utf-8")
     score_line = score_reader.readline()
@@ -92,56 +90,49 @@ if __name__ == "__main__":
         # samples
         for test_object in test_sample_list:
             pos_pair = (user_id, test_object[1])
-            if pos_pair not in user_item_score_dict and float(user_item_score_dict[pos_pair][0]) != 1.0:
-                pos_error_pairs.append(pos_pair)
             neg_pair_list = []
             for neg_idx in test_object[2].split("#"):
                 neg_pair_list.append((user_id, neg_idx))
-                if (user_id, neg_idx) not in user_item_score_dict:
-                    neg_error_pairs.append((user_id, neg_idx))
 
-            # ground_truth_labels = []
-            # predict_labels = []
-            # ground_truth_labels.append(1.0)
-            # predict_labels.append(float(user_item_pos_dict[pos_pair][1]))
-            #
-            # for neg_pair in neg_pair_list:
-            #     _scores = user_item_neg_dict[neg_pair]
-            #     ground_truth_labels.append(0.0)
-            #     predict_labels.append(float(_scores[1]))
+            ground_truth_labels = []
+            predict_labels = []
+            ground_truth_labels.append(1.0)
+            predict_labels.append(float(user_item_score_dict[pos_pair][1]))
 
-            # _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
-            # temp_hit = []
-            # temp_ndcg = []
-            # for k in range(1, 16):
-            #     hit, ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=k)
-            #     temp_hit.append(hit)
-            #     temp_ndcg.append(ndcg)
-            #
-            # hit_k_score.append(temp_hit)
-            # ndcg_k_score.append(temp_ndcg)
+            for neg_pair in neg_pair_list:
+                _scores = user_item_score_dict[neg_pair]
+                ground_truth_labels.append(0.0)
+                predict_labels.append(float(_scores[1]))
+
+            _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
+            temp_hit = []
+            temp_ndcg = []
+            for k in range(1, 16):
+                hit, ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=k)
+                temp_hit.append(hit)
+                temp_ndcg.append(ndcg)
+
+            hit_k_score.append(temp_hit)
+            ndcg_k_score.append(temp_ndcg)
 
     sample_reader.close()
     score_reader.close()
 
-    # total_hit_res_array = np.asarray(hit_k_score)
-    # total_ndcg_res_array = np.asarray(ndcg_k_score)
-    # print(total_hit_res_array.shape)
-    # print(total_ndcg_res_array.shape)
-    #
-    # hit_average = []
-    # ndcg_average = []
-    # for i in range(15):
-    #     hit_average.append("%.5f" % np.mean(total_hit_res_array[:, i]))
-    #     ndcg_average.append("%.5f" % np.mean(total_ndcg_res_array[:, i]))
-    # print("hit score:", hit_average)
-    # print("ndcg score:", ndcg_average)
-    #
-    # score_dir = sys.argv[4]
-    # score_writer = codecs.open(os.path.join(score_dir, "eval_res_%.1f.txt" % alpha), mode="w", encoding="utf-8")
-    # score_writer.write("hit scores\t:" + "\t".join(hit_average) + "\n")
-    # score_writer.write("ndcg scores\t:" + "\t".join(ndcg_average) + "\n")
-    # score_writer.close()
+    total_hit_res_array = np.asarray(hit_k_score)
+    total_ndcg_res_array = np.asarray(ndcg_k_score)
+    print(total_hit_res_array.shape)
+    print(total_ndcg_res_array.shape)
 
-    print(len(set(pos_error_pairs)))
-    print(len(set(neg_error_pairs)))
+    hit_average = []
+    ndcg_average = []
+    for i in range(15):
+        hit_average.append("%.5f" % np.mean(total_hit_res_array[:, i]))
+        ndcg_average.append("%.5f" % np.mean(total_ndcg_res_array[:, i]))
+    print("hit score:", hit_average)
+    print("ndcg score:", ndcg_average)
+
+    score_dir = sys.argv[3]
+    score_writer = codecs.open(os.path.join(score_dir, "eval_res_%.1f.txt" % alpha), mode="w", encoding="utf-8")
+    score_writer.write("hit scores\t:" + "\t".join(hit_average) + "\n")
+    score_writer.write("ndcg scores\t:" + "\t".join(ndcg_average) + "\n")
+    score_writer.close()
