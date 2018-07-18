@@ -82,8 +82,8 @@ if __name__ == "__main__":
     print("eval with alpha:", alpha)
 
     # generate test samples
-    pos_reader = codecs.open("total_pos_sorted.txt", mode="r", encoding="utf-8")
-    neg_reader = codecs.open("total_neg_sorted.txt", mode="r", encoding="utf-8")
+    pos_reader = codecs.open(sys.argv[2], mode="r", encoding="utf-8")
+    neg_reader = codecs.open(sys.argv[3], mode="r", encoding="utf-8")
     pos_line = pos_reader.readline()
     neg_line = neg_reader.readline()
 
