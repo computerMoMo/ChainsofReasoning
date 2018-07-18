@@ -67,26 +67,27 @@ if __name__ == "__main__":
     ndcg_k_score = []
     for user_id in user_id_list:
         print("user id:", user_id)
-        user_item_scores_dict = dict()
+        user_item_pos_dict = dict()
         # read positive items
         while pos_line:
             pos_line_list = pos_line.strip().split("\t")
             if pos_line_list[0] == user_id:
                 pos_line = pos_reader.readline()
-                user_item_scores_dict[(pos_line_list[0], pos_line_list[1])] = (pos_line_list[-2], pos_line_list[-1])
+                user_item_pos_dict[(pos_line_list[0], pos_line_list[1])] = (1.0, pos_line_list[-1])
             else:
                 break
 
         # read negative items
+        user_item_neg_dict = dict()
         while neg_line:
             neg_line_list = neg_line.strip().split("\t")
             if neg_line_list[0] == user_id:
                 neg_line = neg_reader.readline()
-                user_item_scores_dict[(neg_line_list[0], neg_line_list[1])] = (neg_line_list[-2], neg_line_list[-1])
+                user_item_neg_dict[(neg_line_list[0], neg_line_list[1])] = (0.0, neg_line_list[-1])
             else:
                 break
 
-        print("user item scores len:", len(user_item_scores_dict))
+        print("user item pos len:", len(user_item_pos_dict), "user item neg len:", len(user_item_neg_dict))
 
         test_sample_list = []
         # read test samples
@@ -107,13 +108,13 @@ if __name__ == "__main__":
 
             ground_truth_labels = []
             predict_labels = []
-            print("pairs", pos_pair, user_item_scores_dict[pos_pair])
-            ground_truth_labels.append(float(user_item_scores_dict[pos_pair][0]))
-            predict_labels.append(float(user_item_scores_dict[pos_pair][1]))
+            print("pairs", pos_pair, user_item_pos_dict[pos_pair])
+            ground_truth_labels.append(1.0)
+            predict_labels.append(float(user_item_pos_dict[pos_pair][1]))
 
             for neg_pair in neg_pair_list:
-                _scores = user_item_scores_dict[neg_pair]
-                ground_truth_labels.append(float(_scores[0]))
+                _scores = user_item_neg_dict[neg_pair]
+                ground_truth_labels.append(0.0)
                 predict_labels.append(float(_scores[1]))
 
             _hit, _ndcg = eval_one_rating(i_gnd=ground_truth_labels, i_pre=predict_labels, K=15)
