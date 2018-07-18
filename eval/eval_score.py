@@ -107,6 +107,7 @@ if __name__ == "__main__":
 
             ground_truth_labels = []
             predict_labels = []
+            print("pairs", pos_pair, user_item_scores_dict[pos_pair])
             ground_truth_labels.append(float(user_item_scores_dict[pos_pair][0]))
             predict_labels.append(float(user_item_scores_dict[pos_pair][1]))
 
