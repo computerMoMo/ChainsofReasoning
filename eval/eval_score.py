@@ -54,41 +54,30 @@ if __name__ == "__main__":
     not_enough_num = 0
 
     # generate test samples
-    pos_reader = codecs.open(sys.argv[2], mode="r", encoding="utf-8")
-    neg_reader = codecs.open(sys.argv[3], mode="r", encoding="utf-8")
+    # pos_reader = codecs.open(sys.argv[2], mode="r", encoding="utf-8")
+    # neg_reader = codecs.open(sys.argv[3], mode="r", encoding="utf-8")
+    score_reader = codecs.open(sys.argv[2], mode="r", encoding="utf-8")
     sample_reader = codecs.open("test_samples/test_samples_"+str(alpha)+".txt", mode="r", encoding="utf-8")
-
-    pos_line = pos_reader.readline()
-    neg_line = neg_reader.readline()
+    score_line = score_reader.readline()
     sample_line = sample_reader.readline()
 
     debug_num = 0
     hit_k_score = []
     ndcg_k_score = []
-    error_pairs = []
+    pos_error_pairs = []
+    neg_error_pairs = []
     for user_id in user_id_list:
         print("user id:", user_id)
-        user_item_pos_dict = dict()
-        # read positive items
-        while pos_line:
-            pos_line_list = pos_line.strip().split("\t")
-            if pos_line_list[0] == user_id:
-                pos_line = pos_reader.readline()
-                user_item_pos_dict[(pos_line_list[0], pos_line_list[1])] = (1.0, pos_line_list[-1])
+        user_item_score_dict = dict()
+        while score_line:
+            score_line_list = score_line.strip().split("\t")
+            if score_line_list[0] == user_id:
+                score_line = score_reader.readline()
+                user_item_score_dict[(score_line_list[0], score_line_list[1])] = (score_line_list[-2], score_line_list[-1])
             else:
                 break
 
-        # read negative items
-        user_item_neg_dict = dict()
-        while neg_line:
-            neg_line_list = neg_line.strip().split("\t")
-            if neg_line_list[0] == user_id:
-                neg_line = neg_reader.readline()
-                user_item_neg_dict[(neg_line_list[0], neg_line_list[1])] = (0.0, neg_line_list[-1])
-            else:
-                break
-
-        print("user item pos len:", len(user_item_pos_dict), "user item neg len:", len(user_item_neg_dict))
+        print("user item len:", len(user_item_score_dict))
 
         test_sample_list = []
         # read test samples
@@ -103,13 +92,13 @@ if __name__ == "__main__":
         # samples
         for test_object in test_sample_list:
             pos_pair = (user_id, test_object[1])
-            if pos_pair not in user_item_pos_dict:
-                error_pairs.append(pos_pair)
+            if pos_pair not in user_item_score_dict and float(user_item_score_dict[pos_pair][0]) != 1.0:
+                pos_error_pairs.append(pos_pair)
             neg_pair_list = []
             for neg_idx in test_object[2].split("#"):
                 neg_pair_list.append((user_id, neg_idx))
-                if (user_id, neg_idx) not in user_item_neg_dict:
-                    error_pairs.append((user_id, neg_idx))
+                if (user_id, neg_idx) not in user_item_score_dict:
+                    neg_error_pairs.append((user_id, neg_idx))
 
             # ground_truth_labels = []
             # predict_labels = []
@@ -132,8 +121,8 @@ if __name__ == "__main__":
             # hit_k_score.append(temp_hit)
             # ndcg_k_score.append(temp_ndcg)
 
-    pos_reader.close()
-    neg_reader.close()
+    sample_reader.close()
+    score_reader.close()
 
     # total_hit_res_array = np.asarray(hit_k_score)
     # total_ndcg_res_array = np.asarray(ndcg_k_score)
@@ -153,5 +142,6 @@ if __name__ == "__main__":
     # score_writer.write("hit scores\t:" + "\t".join(hit_average) + "\n")
     # score_writer.write("ndcg scores\t:" + "\t".join(ndcg_average) + "\n")
     # score_writer.close()
-    print(error_pairs)
-    print(len(error_pairs))
+
+    print(len(set(pos_error_pairs)))
+    print(len(set(neg_error_pairs)))
