@@ -39,7 +39,7 @@ def sample_with_fq(sample_num, item_fq_list):
 if __name__ == "__main__":
     # read pos user ids
     user_id_list = []
-    user_id_reader = codecs.open("user_id_new.txt", mode="r", encoding="utf-8")
+    user_id_reader = codecs.open("user_id.txt", mode="r", encoding="utf-8")
     for line in user_id_reader:
         user_id_list.append(line.strip())
     user_id_reader.close()
