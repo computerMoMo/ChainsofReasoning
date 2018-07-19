@@ -39,7 +39,7 @@ def sample_with_fq(sample_num, item_fq_list):
 if __name__ == "__main__":
     # read pos user ids
     user_id_list = []
-    user_id_reader = codecs.open("user_id.txt", mode="r", encoding="utf-8")
+    user_id_reader = codecs.open("user_id_new.txt", mode="r", encoding="utf-8")
     for line in user_id_reader:
         user_id_list.append(line.strip())
     user_id_reader.close()
@@ -73,7 +73,7 @@ if __name__ == "__main__":
         # read positive items
         while pos_line:
             pos_line_list = pos_line.strip().split("\t")
-            if pos_line_list[1] == user_id:
+            if pos_line_list[0] == user_id:
                 user_pos_list.append(pos_line_list)
                 pos_line = pos_reader.readline()
             else:
@@ -83,7 +83,7 @@ if __name__ == "__main__":
         # read negative items
         while neg_line:
             neg_line_list = neg_line.strip().split("\t")
-            if neg_line_list[1] == user_id:
+            if neg_line_list[0] == user_id:
                 user_neg_list.append(neg_line_list)
                 neg_line = neg_reader.readline()
             else:
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 if alpha == 0.0:
                     neg_sample_list = random.sample(user_neg_list, negNum)
                 else:
-                    item_fq_list = [itemFqDict[item_object[2]] for item_object in user_neg_list]
+                    item_fq_list = [itemFqDict[item_object[1]] for item_object in user_neg_list]
                     flag, neg_sample_idx_list = sample_with_fq(sample_num=negNum, item_fq_list=item_fq_list)
                     if flag:
                         neg_sample_list = [user_neg_list[idx] for idx in neg_sample_idx_list]
@@ -105,8 +105,8 @@ if __name__ == "__main__":
             else:
                 neg_sample_list = user_neg_list
 
-            neg_item_idx = [_item[2] for _item in neg_sample_list]
-            sample_writer.write(pos_item[1]+"\t"+pos_item[2]+"\t"+"#".join(neg_item_idx)+"\n")
+            neg_item_idx = [_item[1] for _item in neg_sample_list]
+            sample_writer.write(pos_item[0]+"\t"+pos_item[1]+"\t"+"#".join(neg_item_idx)+"\n")
     pos_reader.close()
     neg_reader.close()
 
