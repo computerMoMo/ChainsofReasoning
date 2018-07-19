@@ -36,7 +36,7 @@ if __name__ == "__main__":
     for item in resort_list:
         file_writer.write(str(item[0])+"\t"+item[1]+"\t"+str(item[2])+"\t"+item[3]+"\n")
     file_writer.close()
-
-    error_user = list(set(error_user))
-    # print(error_user)
-    print(len(error_user))
+    #
+    # error_user = list(set(error_user))
+    # # print(error_user)
+    # print(len(error_user))
