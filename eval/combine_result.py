@@ -18,8 +18,6 @@ if __name__ == "__main__":
     while entity_line and result_line:
         entity_list = entity_line.strip().split("\t")
         result_list = result_line.strip().split("\t")
-        if int(result_list[-1]) != int(entity_list[0]):
-            print(entity_line, result_line)
         combine_writer.write(entity_list[1]+"\t"+entity_list[2]+"\t"+entity_list[0]+"\t"+result_list[-2]+"\n")
         count_num += 1
         if count_num % 10000 == 0:
