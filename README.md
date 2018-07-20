@@ -31,12 +31,17 @@ cd ../run_scripts
 bash train.sh ./config.sh
 ```
 
-### Evaluation
+### Evaluation Step By Step
 ```shell
 cd ../eval
-bash model_test.sh <mode_path> <gpu_id>
+bash model_test.sh <model_path> <gpu_id>
 bash combine_result.sh
 bash concat.sh
 python resort.py total_combine.txt total_combine_sorted.txt
 bash eval_socre.sh <sorted file path> <result save path>
+```
+### Evaluation One Step
+```shell
+cd ../eval
+bash eval.sh <model_path> <result save path>
 ```
