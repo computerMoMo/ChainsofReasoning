@@ -35,13 +35,8 @@ bash train.sh ./config.sh
 ```shell
 cd ../eval
 bash model_test.sh <mode_path> <gpu_id>
-cd ../data
-bash format_entity_pair.sh
-cd ../eval
 bash combine_result.sh
 bash concat.sh
-python get_user_id.py
-python resort.py total_pos.txt total_pos_sorted.txt
-python resort.py total_neg.txt total_neg_sorted.txt
-python eval_score.py
+python resort.py total_combine.txt total_combine_sorted.txt
+bash eval_socre.sh <sorted file path> <result save path>
 ```
