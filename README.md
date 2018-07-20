@@ -4,13 +4,13 @@ Code for paper [Chains of Reasoning over Entities, Relations, and Text using
 Recurrent Neural Networks](https://arxiv.org/abs/1607.01426)
 
 ## Dependencies
-
 - [torch](https://github.com/torch/torch7)
 - [nn](https://github.com/torch/nn)
 - [rnn](https://github.com/Element-Research/rnn)
 - [optim](https://github.com/torch/optim)
 - [cunn](https://github.com/torch/cunn) (optional: required if you train on GPU)
 
+## Installation [http://torch.ch/docs/getting-started.html]
 
 ## Instructions for running the code
 
