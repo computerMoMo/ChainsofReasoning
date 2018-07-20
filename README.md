@@ -40,7 +40,7 @@ bash concat.sh
 python resort.py total_combine.txt total_combine_sorted.txt
 bash eval_socre.sh <sorted file path> <result save path>
 ```
-### Evaluation One Step
+### Evaluation By One Step
 ```shell
 cd ../eval
 bash eval.sh <model_path> <result save path>
